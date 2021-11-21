@@ -26,10 +26,10 @@ services:
         context: .
         dockerfile: mqtt_consumer_dockerfile
      volumes:
-        - /home/ubuntu/work/consumer-Debug/:/mqtt_bin/
-        - /home/ubuntu/work/mqtt_binaries/:/mqtt_lib/
+#        - /home/ubuntu/work/consumer-Release/:/mqtt_bin/
+        - /home/ubuntu/work/mqtt_binaries/:/mqtt_bin/
      environment:
-        - LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/mqtt_lib/
+        - LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/mqtt_bin/
      command: bash -c " ./mqtt_bin/consumer"
      ports:
        - "1883:1883"
@@ -42,10 +42,10 @@ services:
       context: .
       dockerfile: mqtt_producer_dockerfile
     volumes:
-       - /home/ubuntu/work/producer-Debug/:/mqtt_bin/
-       - /home/ubuntu/work/mqtt_binaries/:/mqtt_lib/
+#       - /home/ubuntu/work/producer-Debug/:/mqtt_bin/
+       - /home/ubuntu/work/mqtt_binaries/:/mqtt_bin/
     environment: 
-       - LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/mqtt_lib/
+       - LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/mqtt_bin/
     command: bash -c "./mqtt_bin/producer"
     ports:
        - "1883:1883"
