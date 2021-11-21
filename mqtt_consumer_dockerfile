@@ -1,11 +1,15 @@
 FROM ubuntu:20.04
 
-#RUN apt-get update && apt-get -y install libpq-dev
-#RUN pkill mosquitto
-#RUN mosquitto -d
+RUN apt-get update && apt-get -y install libpq-dev
+#RUN cd /opt
+#RUN wget https://www.openssl.org/source/openssl-1.0.2l.tar.gz  
+#RUN gunzip openssl-1.0.2l.tar.gz 
+#RUN tar xf openssl-1.0.2l.tar 
+#RUN cd openssl-1.0.2l/
+#RUN ./config 
+#RUN make install					
+#RUN apt-get install -y libheimdal-kadm5-perl
+#RUN sudo apt-get install libhx509-5-heimdal
 EXPOSE 1883
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/code
-ADD name ./code/consumer
-ENTRYPOINT ["name"]
 
 

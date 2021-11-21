@@ -22,13 +22,15 @@ services:
   mqtt_consumer:
      user: root
      network_mode: host
-     image: ubuntu:20.04
+     build: 
+        context: .
+        dockerfile: mqtt_consumer_dockerfile
      volumes:
-        - /home/ubuntu/work/consumer-Debug/:/code
+        - /home/ubuntu/work/consumer-Debug/:/mqtt_bin/
+        - /home/ubuntu/work/mqtt_binaries/:/mqtt_lib/
      environment:
-        - LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/code/
-     command: apt-get -y install  libmicrohttpd-dev
-     command: bash -c " ./code/consumer"
+        - LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/mqtt_lib/
+     command: bash -c " ./mqtt_bin/consumer"
      ports:
        - "1883:1883"
        - "5432:5432"
@@ -36,15 +38,15 @@ services:
   mqtt_producer:
     user: root
     network_mode: host
- #   image: ubuntu:20.04
     build:
       context: .
       dockerfile: mqtt_producer_dockerfile
     volumes:
-       - /home/ubuntu/work/producer-Debug:/code
+       - /home/ubuntu/work/producer-Debug/:/mqtt_bin/
+       - /home/ubuntu/work/mqtt_binaries/:/mqtt_lib/
     environment: 
-       - LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/code/
-    command: bash -c "./code/producer"
+       - LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/mqtt_lib/
+    command: bash -c "./mqtt_bin/producer"
     ports:
        - "1883:1883"
        - "5880:5880"
