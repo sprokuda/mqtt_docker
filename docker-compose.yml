@@ -1,0 +1,51 @@
+
+version: "3.3"
+services:
+
+  postgres:
+    image: postgres:13.3
+    environment:
+      POSTGRES_DB: "db"
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "12345pass"
+    volumes:
+      - /home/ubuntu/work/pg/data/:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  mqtt_broker:
+    image: eclipse-mosquitto:2.0.14
+    network_mode: host
+    ports:
+      - "1883:1883"
+
+  mqtt_consumer:
+     user: root
+     network_mode: host
+     image: ubuntu:20.04
+     volumes:
+        - /home/ubuntu/work/consumer-Debug/:/code
+     environment:
+        - LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/code/
+     command: apt-get -y install  libmicrohttpd-dev
+     command: bash -c " ./code/consumer"
+     ports:
+       - "1883:1883"
+       - "5432:5432"
+
+  mqtt_producer:
+    user: root
+    network_mode: host
+ #   image: ubuntu:20.04
+    build:
+      context: .
+      dockerfile: mqtt_producer_dockerfile
+    volumes:
+       - /home/ubuntu/work/producer-Debug:/code
+    environment: 
+       - LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/code/
+    command: bash -c "./code/producer"
+    ports:
+       - "1883:1883"
+       - "5880:5880"
+

@@ -1,0 +1,11 @@
+FROM ubuntu:20.04
+
+#RUN apt-get update && apt-get -y install libpq-dev
+#RUN pkill mosquitto
+#RUN mosquitto -d
+EXPOSE 1883
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/code
+ADD name ./code/consumer
+ENTRYPOINT ["name"]
+
+
